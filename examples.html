@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example Markup</title>
+        <style>
+            ul, ul li {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Example Markup</h1>
+        
+        <h2>Simple:</h2>
+        
+        <ul class="fg_group">
+            <li class="cat1"><a href="?category=1">Category 1</a></li>
+            <li class="cat2"><a href="?category=2">Category 2</a></li>
+            <li class="cat3"><a href="?category=3">Category 3</a></li>
+        </ul>
+        <div id="projects_wrap"
+             class="filter_grid">
+            <ul class="fg_items">
+                <li class="cat1 cat3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat1 cat2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+            </ul>
+        </div>
+        
+        <h2>More Complex:</h2>
+        
+        <ul class="filter_subnav">
+            <li class="cat1"><a href="?category=1">Category 1</a></li>
+            <li class="cat2"><a href="?category=2">Category 2</a></li>
+            <li class="cat3"><a href="?category=3">Category 3</a></li>
+        </ul>
+        <ul class="filter_subnav">
+            <li class="price1"><a href="?price=1">Price 1</a></li>
+            <li class="price2"><a href="?price=2">Price 2</a></li>
+            <li class="price3"><a href="?price=3">Price 3</a></li>
+        </ul>
+        <div id="projects_wrap"
+             class="filter_grid"
+             data-clone-selector=".grid"
+             data-link-group-selector=".filter_subnav"
+             data-link-filter-type="multiple">
+            <ul class="grid">
+                <li class="cat1 cat3 price3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat3 price1"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat1 cat2 price2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li class="cat2 price1 price3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+            </ul>
+        </div>
+    </body>
+</html>
+
+
