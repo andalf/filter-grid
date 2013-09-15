@@ -8,30 +8,51 @@
                 padding: 0;
                 margin: 0;
             }
+            .filter_grid, .fg_group, .filter_subnav, .fg_items, .filter_grid {
+                width: 950px;
+                margin-bottom: 20px;
+                clear: both;
+                overflow: auto;
+            }
+            .fg_group li, .filter_subnav li, .filter_grid li, .fg_items li {
+                float: left;
+                margin-right: 15px;
+                margin-bottom: 15px;
+            }
+            a {
+                color: #666;
+            }
+            a.active {
+                color: #000;
+            }
         </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.filterGrid.js"></script>
     </head>
     <body>
         <h1>Example Markup</h1>
-        
-        <h2>Simple:</h2>
-        
+
+        <h2>Single Category Group:</h2>
+
         <ul class="fg_group">
+            <li class="all"><a href="?category=all">All</a></li>
             <li class="cat1"><a href="?category=1">Category 1</a></li>
             <li class="cat2"><a href="?category=2">Category 2</a></li>
             <li class="cat3"><a href="?category=3">Category 3</a></li>
         </ul>
-        <div id="projects_wrap"
-             class="filter_grid">
+        <div class="filter_grid"
+             data-quicksand-file="jquery.quicksand.js">
             <ul class="fg_items">
-                <li class="cat1 cat3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat1 cat2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li data-type="all cat1 cat3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"></li>
+                <li data-type="all cat3" data-id="id-2"><img src="http://placehold.it/300x200&text=Two" alt="Two"></li>
+                <li data-type="all cat1 cat2" data-id="id-3"><img src="http://placehold.it/300x200&text=Three" alt="Three"></li>
+                <li data-type="all cat2" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
             </ul>
         </div>
-        
-        <h2>More Complex:</h2>
-        
+
+        <h2>Multiple Category Groups:</h2>
+        <p>Selecting multiple categories within one group will show you items that match at least one of the selected categories. For example, selecting "Category 1" and "Category 2" will show all items that are in either of those categories.</p>
+        <p>Selecting categories from multiple groups will show you items that match at least one of the potential filter combinations. For example, selecting "Category 1", "Category 2", and "Price 3" will show all items in "Category 1" and "Price 3" or "Category 2" and "Price 3".</p>
         <ul class="filter_subnav">
             <li class="cat1"><a href="?category=1">Category 1</a></li>
             <li class="cat2"><a href="?category=2">Category 2</a></li>
@@ -42,16 +63,16 @@
             <li class="price2"><a href="?price=2">Price 2</a></li>
             <li class="price3"><a href="?price=3">Price 3</a></li>
         </ul>
-        <div id="projects_wrap"
-             class="filter_grid"
+        <div class="filter_grid"
              data-clone-selector=".grid"
              data-link-group-selector=".filter_subnav"
-             data-link-filter-type="multiple">
+             data-link-filter-type="multiple"
+             data-quicksand-file="jquery.quicksand.js">
             <ul class="grid">
-                <li class="cat1 cat3 price3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat3 price1"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat1 cat2 price2"><img src="http://placekitten.com/300/200" alt="kitten"></li>
-                <li class="cat2 price1 price3"><img src="http://placekitten.com/300/200" alt="kitten"></li>
+                <li data-type="cat1 cat3 price3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"></li>
+                <li data-type="cat3 price1" data-id="id-2"><img src="http://placehold.it/300x200&text=Two" alt="Two"></li>
+                <li data-type="cat1 cat2 price2" data-id="id-3"><img src="http://placehold.it/300x200&text=Three" alt="Three"></li>
+                <li data-type="cat2 price1 price3" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
             </ul>
         </div>
     </body>
