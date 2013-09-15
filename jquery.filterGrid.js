@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.3
+ FilterGrid 0.4
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -19,7 +19,7 @@
     $.fn.filterGrid = function () {
 
         var options = {
-            cloneSelector: '.fg_item',
+            cloneSelector: '.fg_items',
             linkGroupSelector: '.fg_group',
             linkFilterType: 'single',
             quicksandFile: '/jscripts/jquery.quicksand.js',
@@ -27,13 +27,14 @@
             quicksandEasing: 'swing',
             quicksandAttribute: 'data-id',
             quicksandAdjustHeight: 'dynamic',
+            quicksandAdjustWidth: 'auto',
             quicksandUseScaling: true,
             quicksandSelector: '> *',
             quicksandDx: 0,
             quicksandDy: 0
         };
 
-        options = $.extend({}, options, $(this).data());
+        options = $.extend(options, $(this).data());
 
         // load quicksand
         $.getScript(options.quicksandFile, function() {
@@ -103,9 +104,8 @@
                     }
                 }
             }
+
             console.log(selectors);
-
-
 
             // Find items based on the generated selector
             var $filteredPortfolio = $portfolioClone.find(selectors);
@@ -125,7 +125,9 @@
     }
 
     $(function(){
-        $(".filter_grid").filterGrid();
+        $(".filter_grid").each(function(){
+            $(this).filterGrid();
+        });
     })
 })(jQuery);
 
