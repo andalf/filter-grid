@@ -3,6 +3,8 @@ jQuery Filter Grid
 
 Filter a set of items by category using jQuery Quicksand for animation.
 
+This currently includes a modified version of jQuery Quicksand 1.2.2 due to a couple of issues when running the newest version.
+
 Usage:
 
 1. Include the JS file.
@@ -11,4 +13,4 @@ Usage:
 5. Add the category identifier class to the parent of each link.
 6. Add the proper category identifiers as classes to the grid items.
 
-Check out example.html for more information.
+Check out examples.html for more information.
