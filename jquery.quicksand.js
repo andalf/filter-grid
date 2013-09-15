@@ -1,6 +1,6 @@
 /*
 
-Quicksand 1.2.2  (MODIFIED BY RocketFuel)
+Quicksand 1.2.2  (MODIFIED BY Andy McFarland)
 
 Reorder and filter items with a nice shuffling animation.
 
@@ -15,7 +15,7 @@ Project site: http://razorjack.net/quicksand
 Github site: http://github.com/razorjack/quicksand
 
 
-Modifications by RocketFuel (andalf)
+Modifications by Andy McFarland (Andalf)
 
 - Changed lines 43 and 71 to use different browser detection to allow the plugin to work properly with jQuery 1.9+ and
   to properly detect IE10.
