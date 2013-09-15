@@ -17,11 +17,11 @@ Github site: http://github.com/razorjack/quicksand
 
 Modifications by RocketFuel (andalf)
 
-- Changed line 63 to use the IE6 and lower targeting code used by
-  Quicksand 1.3+ since the existing code improperly targeted IE10 as well.
+- Changed lines 43 and 71 to use different browser detection to allow the plugin to work properly with jQuery 1.9+ and
+  to properly detect IE10.
 
 - Cannot move to version 1.3+ because it was causing a scrollbar problem
-  on initial instantiation of Quicksand.
+  on initialization of Quicksand.
 
 */
 
@@ -40,7 +40,7 @@ Modifications by RocketFuel (andalf)
         };
         $.extend(options, customOptions);
         
-        if ($.browser.msie || (typeof($.fn.scale) == 'undefined')) {
+        if ((typeof($.fn.scale) == 'undefined')) {
             // Got IE and want scaling effect? Kiss my ass.
             options.useScaling = false;
         }
@@ -69,7 +69,7 @@ Modifications by RocketFuel (andalf)
             var $source = $(this).find(options.selector); // source collection items
             
             // Replace the collection and quit if IE6
-            if ($.browser.msie && parseInt($.browser.version, 10) < 7) {
+            if(typeof document.body.style.maxHeight === "undefined") {
                 $sourceParent.html('').append($collection);
                 return;
             }
