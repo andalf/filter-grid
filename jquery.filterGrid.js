@@ -105,8 +105,6 @@
                 }
             }
 
-            console.log(selectors);
-
             // Find items based on the generated selector
             var $filteredPortfolio = $portfolioClone.find(selectors);
 
