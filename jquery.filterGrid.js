@@ -58,34 +58,23 @@
             var $portfolioClone = $(options.cloneSelector).clone();
 
             if (options.filterButtonId != '') {
-                // Attempt to call Quicksand on every click event handler
-                $(options.linkGroupSelector + ' a').click(function(e){
-                    $linkSelector = $(this);
-                    if (options.linkFilterType == 'multiple') {
-                        if ($linkSelector.hasClass('active')) {
-                            $linkSelector.removeClass('active');
-                        } else {
-                            $linkSelector.addClass("active");
-                        }
-                    } else {
-                        $(options.linkGroupSelector + ' a.active').removeClass('active');
-                        $linkSelector.addClass("active");
-                    }
-
-                    e.preventDefault();
-                });
+                var actionSelector = options.linkGroupSelector + ' a, #' + options.filterButtonId;
+            } else {
+                var actionSelector = options.linkGroupSelector + ' a';
             }
 
             // Attempt to call Quicksand on every click event handler
-            $(options.linkGroupSelector + ' a').click(function(e){
+            $(actionSelector).click(function(e){
 
                 // Prevent the browser jump to the link anchor
                 e.preventDefault();
 
                 $linkSelector = $(this);
 
+                console.log($linkSelector);
+
                 if (options.linkFilterType == 'multiple') {
-                    if ($linkSelector.hasClass('active')) {
+                    if ($linkSelector.hasClass('active') == true) {
                         $linkSelector.removeClass('active');
                     } else {
                         $linkSelector.addClass("active");
@@ -95,60 +84,62 @@
                     $linkSelector.addClass("active");
                 }
 
-                // Create the selector for all items that should be shown
-                var g = 0,
-                    find = new Array();
-                $(options.linkGroupSelector).each(function(){
-                    var i = 0;
-                    find[g] = new Array();
-                    $('a.active', $(this)).each(function(){
-                        var newFilter = $(this).parent().attr("class");
-                        find[g][i] = newFilter;
-                        i++;
-                    });
-                    g++;
-                });
+                if (options.filterButtonId == '' || (options.filterButtonId != '' && $linkSelector.attr('id') == options.filterButtonId)) {
 
-                var i, i2, i3, i4, selectors = '', usedCategories = new Array(), ucCount = 0;
-                for (i = 0; i < find.length; i++) {
-                    for (i2 = 0; i2 < find[i].length; i2++) {
-                        if (find[i][i2].length > 0) {
-                            for (i3 = 0; i3 < find.length; i3++) {
-                                for (i4 = 0; i4 < find[i3].length; i4++) {
-                                    if (find[i3] != find[i] && find[i3][i4].length > 0) {
-                                        if (selectors != '') {
-                                            selectors += ',';
+                    // Create the selector for all items that should be shown
+                    var g = 0,
+                        find = new Array();
+                    $(options.linkGroupSelector).each(function(){
+                        var i = 0;
+                        find[g] = new Array();
+                        $('a.active', $(this)).each(function(){
+                            var newFilter = $(this).parent().attr("class");
+                            find[g][i] = newFilter;
+                            i++;
+                        });
+                        g++;
+                    });
+
+                    var i, i2, i3, i4, selectors = '', usedCategories = new Array(), ucCount = 0;
+                    for (i = 0; i < find.length; i++) {
+                        for (i2 = 0; i2 < find[i].length; i2++) {
+                            if (find[i][i2].length > 0) {
+                                for (i3 = 0; i3 < find.length; i3++) {
+                                    for (i4 = 0; i4 < find[i3].length; i4++) {
+                                        if (find[i3] != find[i] && find[i3][i4].length > 0) {
+                                            if (selectors != '') {
+                                                selectors += ',';
+                                            }
+                                            selectors += "li[data-type~=" + find[i][i2] + "][data-type~=" + find[i3][i4] + "]";
+                                            usedCategories[ucCount] = find[i][i2];
+                                            ucCount++;
                                         }
-                                        selectors += "li[data-type~=" + find[i][i2] + "][data-type~=" + find[i3][i4] + "]";
-                                        usedCategories[ucCount] = find[i][i2];
-                                        ucCount++;
                                     }
                                 }
-                            }
-                            if ($.inArray(find[i][i2], usedCategories) == -1) {
-                                if (selectors != '') {
-                                    selectors += ',';
+                                if ($.inArray(find[i][i2], usedCategories) == -1) {
+                                    if (selectors != '') {
+                                        selectors += ',';
+                                    }
+                                    selectors += "li[data-type~=" + find[i][i2] + "]";
+                                    usedCategories[ucCount] = find[i][i2];
+                                    ucCount++;
                                 }
-                                selectors += "li[data-type~=" + find[i][i2] + "]";
-                                usedCategories[ucCount] = find[i][i2];
-                                ucCount++;
                             }
                         }
                     }
+
+                    // Find items based on the generated selector
+                    var $filteredPortfolio = $portfolioClone.find(selectors);
+
+                    // Call quicksand
+                    $(options.cloneSelector).quicksand( $filteredPortfolio, {
+                        duration: options.quicksandDuration,
+                        easing: options.quicksandEasing,
+                        adjustHeight: options.quicksandAdjustHeight,
+                        adjustWidth : options.quicksandAdjustWidth,
+                        useScaling: options.quicksandUseScaling
+                    });
                 }
-
-                // Find items based on the generated selector
-                var $filteredPortfolio = $portfolioClone.find(selectors);
-
-                // Call quicksand
-                $(options.cloneSelector).quicksand( $filteredPortfolio, {
-                    duration: options.quicksandDuration,
-                    easing: options.quicksandEasing,
-                    adjustHeight: options.quicksandAdjustHeight,
-                    adjustWidth : options.quicksandAdjustWidth,
-                    useScaling: options.quicksandUseScaling
-                });
-
             });
 
             return this;
