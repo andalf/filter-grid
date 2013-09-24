@@ -80,7 +80,7 @@
         </div>
 
         <h2>Multiple Category Groups with Filter Button:</h2>
-        <p>In this example, it does not filter until you hit the filter button.</p>
+        <p>In this example, it filters like example 2 above 950px wide and does not filter until you hit the filter button when below 950px wide. This can be useful when dealing with responsive designs.</p>
         <div id="example3_categories">
             <ul class="filter_subnav">
                 <li class="cat1"><a href="?category=1">Category 1</a></li>
@@ -102,6 +102,7 @@
              data-link-group-selector="#example3_categories .filter_subnav"
              data-link-filter-type="multiple"
              data-filter-button-id="filter_me_button"
+             data-filter-button-below-width="950"
              data-quicksand-file="jquery.quicksand.js">
             <ul class="grid">
                 <li data-type="cat1 cat3 price3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"></li>
@@ -110,6 +111,23 @@
                 <li data-type="cat2 price1 price3" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
             </ul>
         </div>
+        <script type="text/javascript">
+//            function checkWidth(){
+//                if ($(window).width() > 950) {
+//                    console.log($('#example3.filter_grid').data('filterButtonId'));
+//                    $('#example3.filter_grid').data('filterButtonId', '');
+//                    console.log($('#example3.filter_grid').data('filterButtonId'));
+//                    $('#filter_me_button').hide();
+//                } else {
+//                    $('#filter_me_button').show();
+//                    $('#example3.filter_grid').data('filterButtonId', 'filter_me_button');
+//                }
+//            }
+//            $(window).load(function(){
+//                checkWidth();
+//                $(window).resize(checkWidth);
+//            });
+        </script>
     </body>
 </html>
 

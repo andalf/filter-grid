@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.4
+ FilterGrid 0.6
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -16,13 +16,14 @@
  */
 
 (function($) {
-    $.fn.filterGrid = function () {
+    $.fn.filterGrid = function (options) {
 
-        var options = {
+        var defaultOptions = {
             cloneSelector: '.fg_items',
             linkGroupSelector: '.fg_group',
             linkFilterType: 'single',
             filterButtonId: '',
+            filterButtonBelowWidth: '',
             quicksandFile: '/jscripts/jquery.quicksand.js',
             quicksandDuration: 750,
             quicksandEasing: 'swing',
@@ -35,7 +36,7 @@
             quicksandDy: 0
         };
 
-        options = $.extend(options, $(this).data());
+        options = $.extend(defaultOptions, $(this).data(), options);
 
         // load quicksand
         $.getScript(options.quicksandFile, function() {
@@ -63,6 +64,9 @@
                 var actionSelector = options.linkGroupSelector + ' a';
             }
 
+            checkWidth();
+            $(window).resize(checkWidth);
+
             // Attempt to call Quicksand on every click event handler
             $(actionSelector).click(function(e){
 
@@ -70,8 +74,6 @@
                 e.preventDefault();
 
                 $linkSelector = $(this);
-
-                console.log($linkSelector);
 
                 if (options.linkFilterType == 'multiple') {
                     if ($linkSelector.hasClass('active') == true) {
@@ -84,7 +86,9 @@
                     $linkSelector.addClass("active");
                 }
 
-                if (options.filterButtonId == '' || (options.filterButtonId != '' && $linkSelector.attr('id') == options.filterButtonId)) {
+                if (options.filterButtonId == '' ||
+                    (options.filterButtonId != '' && $linkSelector.attr('id') == options.filterButtonId) ||
+                    (options.filterButtonBelowWidth != '' && options.filterButtonBelowWidth < $(window).width())) {
 
                     // Create the selector for all items that should be shown
                     var g = 0,
@@ -144,6 +148,15 @@
 
             return this;
         });
+
+        function checkWidth(){
+            if ($(window).width() > options.filterButtonBelowWidth) {
+                $('#'+options.filterButtonId).hide();
+            } else {
+                $('#'+options.filterButtonId).show();
+            }
+        }
+
     }
 
     $(function(){
