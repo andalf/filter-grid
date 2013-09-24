@@ -65,7 +65,12 @@
             }
 
             checkWidth();
-            $(window).resize(checkWidth);
+            var resizeTimer;
+            $(window).resize(function(){
+                console.log('resized');
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(checkWidth, 100);
+            });
 
             // Attempt to call Quicksand on every click event handler
             $(actionSelector).click(function(e){
@@ -149,12 +154,24 @@
             return this;
         });
 
+        // hide filter button below a certain width and resize items
         function checkWidth(){
             if ($(window).width() > options.filterButtonBelowWidth) {
                 $('#'+options.filterButtonId).hide();
             } else {
                 $('#'+options.filterButtonId).show();
             }
+
+            $(options.cloneSelector + ' li').height('');
+
+            var gridItemHeight = 0, thisHeight = 0;
+            $(options.cloneSelector + ' li').each(function() {
+                thisHeight = $(this).height();
+                if(gridItemHeight < thisHeight) {
+                    gridItemHeight = thisHeight;
+                }
+            });
+            $(options.cloneSelector + ' li').css('height', gridItemHeight);
         }
 
     }
