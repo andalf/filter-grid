@@ -45,16 +45,6 @@
 
         $(window).load(function(){
 
-            // Resize all items to the same height
-            var gridItemHeight = 0, thisHeight = 0;
-            $(options.cloneSelector + ' li').each(function() {
-                thisHeight = $(this).height();
-                if(gridItemHeight < thisHeight) {
-                    gridItemHeight = thisHeight;
-                }
-            });
-            $(options.cloneSelector + ' li').css('height', gridItemHeight);
-
             // Clone grid items to get a second collection for Quicksand plugin
             var $portfolioClone = $(options.cloneSelector).clone();
 
@@ -161,7 +151,7 @@
             } else {
                 $('#'+options.filterButtonId).show();
             }
-
+            $(options.cloneSelector).height('');
             $(options.cloneSelector + ' li').height('');
 
             var gridItemHeight = 0, thisHeight = 0;
@@ -173,7 +163,6 @@
             });
             $(options.cloneSelector + ' li').css('height', gridItemHeight);
         }
-
     }
 
     $(function(){
