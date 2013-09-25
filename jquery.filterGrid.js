@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.6
+ FilterGrid 0.7
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -48,6 +48,13 @@
             // Clone grid items to get a second collection for Quicksand plugin
             var $portfolioClone = $(options.cloneSelector).clone();
 
+            resizeItems($portfolioClone);
+            var resizeTimer;
+            $(window).resize(function(){
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function(){ resizeItems($portfolioClone) }, 100);
+            });
+
             if (options.filterButtonId != '') {
                 var actionSelector = options.linkGroupSelector + ' a, #' + options.filterButtonId;
             } else {
@@ -55,11 +62,10 @@
             }
 
             checkWidth();
-            var resizeTimer;
+            var checkTimer;
             $(window).resize(function(){
-                console.log('resized');
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(checkWidth, 100);
+                clearTimeout(checkTimer);
+                checkTimer = setTimeout(checkWidth, 100);
             });
 
             // Attempt to call Quicksand on every click event handler
@@ -144,25 +150,35 @@
             return this;
         });
 
-        // hide filter button below a certain width and resize items
+        // Show/Hide filter button based on window width
         function checkWidth(){
             if ($(window).width() > options.filterButtonBelowWidth) {
                 $('#'+options.filterButtonId).hide();
             } else {
                 $('#'+options.filterButtonId).show();
             }
-            $(options.cloneSelector).height('');
-            $(options.cloneSelector + ' li').height('');
+        }
 
+        // Resize all items to the same height
+        function resizeItems($portfolioClone){
             var gridItemHeight = 0, thisHeight = 0;
-            $(options.cloneSelector + ' li').each(function() {
-                thisHeight = $(this).height();
-                if(gridItemHeight < thisHeight) {
-                    gridItemHeight = thisHeight;
-                }
+            $portfolioClone.find('li').css('height','');
+            $(options.cloneSelector + ' li').css('height','');
+            $(options.cloneSelector).css('height','');
+            $(options.cloneSelector).each(function() {
+                $('li', this).each(function() {
+                    thisHeight = $(this).height();
+                    if(gridItemHeight < thisHeight) {
+                        gridItemHeight = thisHeight;
+                    }
+                });
             });
             $(options.cloneSelector + ' li').css('height', gridItemHeight);
+            $portfolioClone.find('li').css('height', gridItemHeight);
+
+            console.log($portfolioClone);
         }
+
     }
 
     $(function(){
