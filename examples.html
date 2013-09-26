@@ -111,6 +111,48 @@
                 <li data-type="cat2 price1 price3" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
             </ul>
         </div>
+
+        <h2>Multiple Category Groups with duplicate filter sets:</h2>
+        <p>This demonstrates the use of two sets of the same filters. This can be useful when you need the same filters but different nav code for mobile devices.</p>
+        <div id="example4_categories">
+            <h3>Filter Group 1</h3>
+            <ul class="filter_subnav">
+                <li class="cat1"><a href="?category=1" data-join="cat1">Category 1</a></li>
+                <li class="cat2"><a href="?category=2" data-join="cat2">Category 2</a></li>
+                <li class="cat3"><a href="?category=3" data-join="cat3">Category 3</a></li>
+            </ul>
+            <ul class="filter_subnav">
+                <li class="price1"><a href="?price=1" data-join="price1">Price 1</a></li>
+                <li class="price2"><a href="?price=2" data-join="price2">Price 2</a></li>
+                <li class="price3"><a href="?price=3" data-join="price3">Price 3</a></li>
+            </ul>
+
+            <h3>Filter Group 2</h3>
+            <ul class="filter_subnav" data-type="secondary">
+                <li class="cat1"><a href="?category=1" data-join="cat1">Category 1</a></li>
+                <li class="cat2"><a href="?category=2" data-join="cat2">Category 2</a></li>
+                <li class="cat3"><a href="?category=3" data-join="cat3">Category 3</a></li>
+            </ul>
+            <ul class="filter_subnav" data-type="secondary">
+                <li class="price1"><a href="?price=1" data-join="price1">Price 1</a></li>
+                <li class="price2"><a href="?price=2" data-join="price2">Price 2</a></li>
+                <li class="price3"><a href="?price=3" data-join="price3">Price 3</a></li>
+            </ul>
+        </div>
+        <div id="example4"
+             class="filter_grid"
+             data-clone-selector="#example4 .grid"
+             data-link-group-selector="#example4_categories .filter_subnav"
+             data-link-filter-type="multiple"
+             data-link-filter-join-attribute="join"
+             data-quicksand-file="jquery.quicksand.js">
+            <ul class="grid">
+                <li data-type="cat1 cat3 price3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"></li>
+                <li data-type="cat3 price1" data-id="id-2"><img src="http://placehold.it/200x300&text=Two" alt="Two"></li>
+                <li data-type="cat1 cat2 price2" data-id="id-3"><img src="http://placehold.it/300x200&text=Three" alt="Three"></li>
+                <li data-type="cat2 price1 price3" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
+            </ul>
+        </div>
     </body>
 </html>
 

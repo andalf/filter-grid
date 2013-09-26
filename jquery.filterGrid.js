@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.7
+ FilterGrid 0.8
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -22,8 +22,11 @@
             cloneSelector: '.fg_items',
             linkGroupSelector: '.fg_group',
             linkFilterType: 'single',
+            linkFilterJoinAttribute: '',
+            linkFilterSecondaryType: 'secondary',
             filterButtonId: '',
             filterButtonBelowWidth: '',
+            resizeOnCallback: '',
             quicksandFile: '/jscripts/jquery.quicksand.js',
             quicksandDuration: 750,
             quicksandEasing: 'swing',
@@ -75,6 +78,10 @@
                 e.preventDefault();
 
                 $linkSelector = $(this);
+                $linkSelectorOriginal = $(this);
+                if (options.linkFilterJoinAttribute != '') {
+                    $linkSelector = $('a[data-'+options.linkFilterJoinAttribute+'="'+$linkSelector.data(options.linkFilterJoinAttribute)+'"]');
+                }
 
                 if (options.linkFilterType == 'multiple') {
                     if ($linkSelector.hasClass('active') == true) {
@@ -88,21 +95,24 @@
                 }
 
                 if (options.filterButtonId == '' ||
-                    (options.filterButtonId != '' && $linkSelector.attr('id') == options.filterButtonId) ||
+                    (options.filterButtonId != '' && $linkSelectorOriginal.attr('id') == options.filterButtonId) ||
                     (options.filterButtonBelowWidth != '' && options.filterButtonBelowWidth < $(window).width())) {
 
                     // Create the selector for all items that should be shown
                     var g = 0,
                         find = new Array();
                     $(options.linkGroupSelector).each(function(){
-                        var i = 0;
-                        find[g] = new Array();
-                        $('a.active', $(this)).each(function(){
-                            var newFilter = $(this).parent().attr("class");
-                            find[g][i] = newFilter;
-                            i++;
-                        });
-                        g++;
+
+                        if ($(this).data('type') != options.linkFilterSecondaryType) {
+                            var i = 0;
+                            find[g] = new Array();
+                            $('a.active', $(this)).each(function(){
+                                var newFilter = $(this).parent().attr("class");
+                                find[g][i] = newFilter;
+                                i++;
+                            });
+                            g++;
+                        }
                     });
 
                     var i, i2, i3, i4, selectors = '', usedCategories = new Array(), ucCount = 0;
@@ -133,6 +143,8 @@
                         }
                     }
 
+                    console.log(selectors);
+
                     // Find items based on the generated selector
                     var $filteredPortfolio = $portfolioClone.find(selectors);
 
@@ -143,6 +155,10 @@
                         adjustHeight: options.quicksandAdjustHeight,
                         adjustWidth : options.quicksandAdjustWidth,
                         useScaling: options.quicksandUseScaling
+                    }, function() {
+                        if (options.resizeOnCallback == true) {
+                            resizeItems($portfolioClone);
+                        }
                     });
                 }
             });
@@ -175,8 +191,6 @@
             });
             $(options.cloneSelector + ' li').css('height', gridItemHeight);
             $portfolioClone.find('li').css('height', gridItemHeight);
-
-            console.log($portfolioClone);
         }
 
     }
