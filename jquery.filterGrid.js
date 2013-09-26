@@ -189,8 +189,10 @@
                     }
                 });
             });
-            $(options.cloneSelector + ' li').css('height', gridItemHeight);
-            $portfolioClone.find('li').css('height', gridItemHeight);
+            if (gridItemHeight != 0) {
+                $(options.cloneSelector + ' li').css('height', gridItemHeight);
+                $portfolioClone.find('li').css('height', gridItemHeight);
+            }
         }
 
     }
