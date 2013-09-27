@@ -48,14 +48,17 @@
 
         $(window).load(function(){
 
+            // Clone grid items to get a permanent full collection
+            var $fullCollection = $(options.cloneSelector).clone();
+
             // Clone grid items to get a second collection for Quicksand plugin
             var $portfolioClone = $(options.cloneSelector).clone();
 
-            resizeItems($portfolioClone);
+            resizeItems($portfolioClone, $fullCollection);
             var resizeTimer;
             $(window).resize(function(){
                 clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function(){ resizeItems($portfolioClone) }, 100);
+                resizeTimer = setTimeout(function(){ resizeItems($portfolioClone, $fullCollection) }, 100);
             });
 
             if (options.filterButtonId != '') {
@@ -143,7 +146,7 @@
                         }
                     }
 
-                    // Show all items if no links are selected
+                    // Show all items Zif no links are selected
                     if (selectors == '') {
                         selectors = 'li';
                     }
@@ -158,10 +161,6 @@
                         adjustHeight: options.quicksandAdjustHeight,
                         adjustWidth : options.quicksandAdjustWidth,
                         useScaling: options.quicksandUseScaling
-                    }, function() {
-                        if (options.resizeOnCallback == true) {
-                            resizeItems($portfolioClone);
-                        }
                     });
                 }
             });
@@ -179,19 +178,27 @@
         }
 
         // Resize all items to the same height
-        function resizeItems($portfolioClone){
+        function resizeItems($portfolioClone, $fullCollection){
+
             var gridItemHeight = 0, thisHeight = 0;
+
+            $('.filter_grid_resize_wrapper').remove();
+            $(options.cloneSelector).after('<div class="filter_grid_resize_wrapper"></div>');
+            $('.filter_grid_resize_wrapper').append($fullCollection);
+            $('.filter_grid_resize_wrapper ul').removeClass(options.cloneSelector.replace('.',''));
+
+            $('.filter_grid_resize_wrapper li').each(function() {
+                thisHeight = $(this).height();
+                if(gridItemHeight < thisHeight) {
+                    gridItemHeight = thisHeight;
+                }
+            });
+
+            $('.filter_grid_resize_wrapper').remove();
+
             $portfolioClone.find('li').css('height','');
             $(options.cloneSelector + ' li').css('height','');
             $(options.cloneSelector).css('height','');
-            $(options.cloneSelector).each(function() {
-                $('li', this).each(function() {
-                    thisHeight = $(this).height();
-                    if(gridItemHeight < thisHeight) {
-                        gridItemHeight = thisHeight;
-                    }
-                });
-            });
             if (gridItemHeight != 0) {
                 $(options.cloneSelector + ' li').css('height', gridItemHeight);
                 $portfolioClone.find('li').css('height', gridItemHeight);
