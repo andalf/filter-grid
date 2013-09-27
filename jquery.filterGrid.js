@@ -143,7 +143,10 @@
                         }
                     }
 
-                    console.log(selectors);
+                    // Show all items if no links are selected
+                    if (selectors == '') {
+                        selectors = 'li';
+                    }
 
                     // Find items based on the generated selector
                     var $filteredPortfolio = $portfolioClone.find(selectors);
