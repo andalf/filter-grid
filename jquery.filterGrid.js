@@ -43,7 +43,6 @@
 
         // load quicksand
         $.getScript(options.quicksandFile, function() {
-            console.log('Quicksand loaded.');
         });
 
         $(window).load(function(){
