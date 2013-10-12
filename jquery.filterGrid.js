@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.8
+ FilterGrid 0.8.1
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -145,7 +145,7 @@
                         }
                     }
 
-                    // Show all items Zif no links are selected
+                    // Show all items if no links are selected
                     if (selectors == '') {
                         selectors = 'li';
                     }
@@ -154,7 +154,7 @@
                     var $filteredPortfolio = $portfolioClone.find(selectors);
 
                     // Call quicksand
-                    $(options.cloneSelector).quicksand( $filteredPortfolio, {
+                    $(options.cloneSelector).not('.do_not_filter').quicksand( $filteredPortfolio, {
                         duration: options.quicksandDuration,
                         easing: options.quicksandEasing,
                         adjustHeight: options.quicksandAdjustHeight,
@@ -184,7 +184,7 @@
             $('.filter_grid_resize_wrapper').remove();
             $(options.cloneSelector).after('<div class="filter_grid_resize_wrapper"></div>');
             $('.filter_grid_resize_wrapper').append($fullCollection);
-            $('.filter_grid_resize_wrapper ul').removeClass(options.cloneSelector.replace('.',''));
+            $('.filter_grid_resize_wrapper ul').addClass('do_not_filter');
 
             $('.filter_grid_resize_wrapper li').each(function() {
                 thisHeight = $(this).height();

@@ -14,7 +14,7 @@
                 clear: both;
                 overflow: auto;
             }
-            .fg_group li, .filter_subnav li, .filter_grid li, .fg_items li {
+            .fg_group li, .filter_subnav li, .fg_items li, .grid li {
                 float: left;
                 margin-right: 15px;
                 margin-bottom: 15px;
@@ -24,6 +24,11 @@
             }
             a.active {
                 color: #000;
+            }
+            .fg_items li, .grid li {
+                font-size: 30px;
+                width: 300px;
+                text-align: center;
             }
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -43,10 +48,10 @@
         <div class="filter_grid"
              data-quicksand-file="jquery.quicksand.js">
             <ul class="fg_items">
-                <li data-type="all cat1 cat3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"></li>
-                <li data-type="all cat3" data-id="id-2"><img src="http://placehold.it/200x300&text=Two" alt="Two"></li>
-                <li data-type="all cat1 cat2" data-id="id-3"><img src="http://placehold.it/300x200&text=Three" alt="Three"></li>
-                <li data-type="all cat2" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"></li>
+                <li data-type="all cat1 cat3" data-id="id-1"><img src="http://placehold.it/300x200&text=One" alt="One"><br>This is a really long title for this one which needs some resizing styleing stuff.</li>
+                <li data-type="all cat3" data-id="id-2"><img src="http://placehold.it/200x300&text=Two" alt="Two"><br>This is the second one.</li>
+                <li data-type="all cat1 cat2" data-id="id-3"><img src="http://placehold.it/300x200&text=Three" alt="Three"><br>This is the third</li>
+                <li data-type="all cat2" data-id="id-4"><img src="http://placehold.it/300x200&text=Four" alt="Four"><br>This is the fourth.</li>
             </ul>
         </div>
 
