@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.8.1
+ FilterGrid 0.8.2
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -22,7 +22,6 @@
             cloneSelector: '.fg_items',
             linkGroupSelector: '.fg_group',
             linkFilterType: 'single',
-            linkFilterJoinAttribute: '',
             linkFilterSecondaryType: 'secondary',
             filterButtonId: '',
             filterButtonBelowWidth: '',
@@ -79,11 +78,8 @@
                 // Prevent the browser jump to the link anchor
                 e.preventDefault();
 
-                $linkSelector = $(this);
                 $linkSelectorOriginal = $(this);
-                if (options.linkFilterJoinAttribute != '') {
-                    $linkSelector = $('a[data-'+options.linkFilterJoinAttribute+'="'+$linkSelector.data(options.linkFilterJoinAttribute)+'"]');
-                }
+                $linkSelector = $(options.linkGroupSelector + ' a[href="'+$linkSelectorOriginal.attr('href')+'"]');
 
                 if (options.linkFilterType == 'multiple') {
                     if ($linkSelector.hasClass('active') == true) {
