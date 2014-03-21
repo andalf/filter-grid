@@ -40,10 +40,6 @@
 
         options = $.extend(defaultOptions, $(this).data(), options);
 
-        // load quicksand
-        $.getScript(options.quicksandFile, function() {
-        });
-
         $(window).load(function(){
 
             // Clone grid items to get a permanent full collection
@@ -96,72 +92,83 @@
                     (options.filterButtonId != '' && $linkSelectorOriginal.attr('id') == options.filterButtonId) ||
                     (options.filterButtonBelowWidth != '' && options.filterButtonBelowWidth < $(window).width())) {
 
-                    // Create the selector for all items that should be shown
-                    var g = 0,
-                        find = new Array();
-                    $(options.linkGroupSelector).each(function(){
+                    filterItems($portfolioClone);
+                }
+            });
 
-                        if ($(this).data('type') != options.linkFilterSecondaryType) {
-                            var i = 0;
-                            find[g] = new Array();
-                            $('a.active', $(this)).each(function(){
-                                var newFilter = $(this).parent().attr("class");
-                                find[g][i] = newFilter;
-                                i++;
-                            });
-                            g++;
-                        }
+            // load quicksand
+            $.getScript(options.quicksandFile, function() {
+                filterItems($portfolioClone);
+            });
+
+            return this;
+        });
+
+        function filterItems($portfolioClone) {
+            // Create the selector for all items that should be shown
+            var g = 0,
+                find = [];
+            $(options.linkGroupSelector).each(function(){
+
+                if ($(this).data('type') != options.linkFilterSecondaryType) {
+                    var i = 0;
+                    find[g] = [];
+                    $('a.active', $(this)).each(function(){
+                        find[g][i] = $(this).parent().attr("class");
+                        i++;
                     });
+                    g++;
+                }
+            });
 
-                    var i, i2, i3, i4, selectors = '', usedCategories = new Array(), ucCount = 0;
-                    for (i = 0; i < find.length; i++) {
-                        for (i2 = 0; i2 < find[i].length; i2++) {
-                            if (find[i][i2].length > 0) {
-                                for (i3 = 0; i3 < find.length; i3++) {
-                                    for (i4 = 0; i4 < find[i3].length; i4++) {
-                                        if (find[i3] != find[i] && find[i3][i4].length > 0) {
-                                            if (selectors != '') {
-                                                selectors += ',';
-                                            }
-                                            selectors += "li[data-type~=" + find[i][i2] + "][data-type~=" + find[i3][i4] + "]";
-                                            usedCategories[ucCount] = find[i][i2];
-                                            ucCount++;
-                                        }
-                                    }
-                                }
-                                if ($.inArray(find[i][i2], usedCategories) == -1) {
+            var i, i2, i3, i4,
+                selectors = '',
+                usedCategories = [],
+                ucCount = 0;
+            for (i = 0; i < find.length; i++) {
+                for (i2 = 0; i2 < find[i].length; i2++) {
+                    if (find[i][i2].length > 0) {
+                        for (i3 = 0; i3 < find.length; i3++) {
+                            for (i4 = 0; i4 < find[i3].length; i4++) {
+                                if (find[i3] != find[i] && find[i3][i4].length > 0) {
                                     if (selectors != '') {
                                         selectors += ',';
                                     }
-                                    selectors += "li[data-type~=" + find[i][i2] + "]";
+                                    selectors += "li[data-type~=" + find[i][i2] + "][data-type~=" + find[i3][i4] + "]";
                                     usedCategories[ucCount] = find[i][i2];
                                     ucCount++;
                                 }
                             }
                         }
+                        if ($.inArray(find[i][i2], usedCategories) == -1) {
+                            if (selectors != '') {
+                                selectors += ',';
+                            }
+                            selectors += "li[data-type~=" + find[i][i2] + "]";
+                            usedCategories[ucCount] = find[i][i2];
+                            ucCount++;
+                        }
                     }
-
-                    // Show all items if no links are selected
-                    if (selectors == '') {
-                        selectors = 'li';
-                    }
-
-                    // Find items based on the generated selector
-                    var $filteredPortfolio = $portfolioClone.find(selectors);
-
-                    // Call quicksand
-                    $(options.cloneSelector).not('.do_not_filter').quicksand( $filteredPortfolio, {
-                        duration: options.quicksandDuration,
-                        easing: options.quicksandEasing,
-                        adjustHeight: options.quicksandAdjustHeight,
-                        adjustWidth : options.quicksandAdjustWidth,
-                        useScaling: options.quicksandUseScaling
-                    });
                 }
-            });
+            }
 
-            return this;
-        });
+            // Show all items if no links are selected
+            if (selectors == '') {
+                selectors = 'li';
+            }
+
+            // Find items based on the generated selector
+            var $filteredPortfolio = $portfolioClone.find(selectors);
+
+            // Call quicksand
+            $(options.cloneSelector).not('.do_not_filter').quicksand( $filteredPortfolio, {
+                duration: options.quicksandDuration,
+                easing: options.quicksandEasing,
+                adjustHeight: options.quicksandAdjustHeight,
+                adjustWidth : options.quicksandAdjustWidth,
+                useScaling: options.quicksandUseScaling
+            });
+        }
 
         // Show/Hide filter button based on window width
         function checkWidth(){
