@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 0.8.2
+ FilterGrid 1.0
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
