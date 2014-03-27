@@ -11,6 +11,7 @@ Usage:
 2. Add a class of 'filter_grid' to the wrapper.
 4. Make sure your markup and path to quicksand.js file match the default. If they do not, override the default to your path.
 5. Add the category identifier class to the parent of each link.
+5. Add a unique href to each link.
 6. Add the proper category identifiers as classes to the grid items.
 
 Check out examples.html for more information.

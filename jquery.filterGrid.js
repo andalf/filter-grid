@@ -1,6 +1,6 @@
 /*
 
- FilterGrid 1.0
+ FilterGrid 1.1
 
  Provide an easy way to set up filtering using the Quicksand library for movement.
 
@@ -104,6 +104,32 @@
             return this;
         });
 
+        function cartesianProduct(paramArray) {
+            function addTo(curr, args) {
+                var i, copy,
+                    rest = args.slice(1),
+                    last = !rest.length,
+                    result = [];
+
+                for (i = 0; i < args[0].length; i++) {
+                    copy = curr.slice();
+                    copy.push(args[0][i]);
+
+                    if (last) {
+                        result.push(copy);
+
+                    } else {
+                        result = result.concat(addTo(copy, rest));
+                    }
+                }
+
+                return result;
+            }
+
+            return addTo([], paramArray);
+        }
+
+
         function filterItems($portfolioClone) {
             // Create the selector for all items that should be shown
             var g = 0,
@@ -121,35 +147,28 @@
                 }
             });
 
-            var i, i2, i3, i4,
+            var i, i2,
                 selectors = '',
-                usedCategories = [],
-                ucCount = 0;
+                ucCount = 0,
+                findCount = [],
+                newSelectors = [],
+                product = [];
+
             for (i = 0; i < find.length; i++) {
-                for (i2 = 0; i2 < find[i].length; i2++) {
-                    if (find[i][i2].length > 0) {
-                        for (i3 = 0; i3 < find.length; i3++) {
-                            for (i4 = 0; i4 < find[i3].length; i4++) {
-                                if (find[i3] != find[i] && find[i3][i4].length > 0) {
-                                    if (selectors != '') {
-                                        selectors += ',';
-                                    }
-                                    selectors += "li[data-type~=" + find[i][i2] + "][data-type~=" + find[i3][i4] + "]";
-                                    usedCategories[ucCount] = find[i][i2];
-                                    ucCount++;
-                                }
-                            }
-                        }
-                        if ($.inArray(find[i][i2], usedCategories) == -1) {
-                            if (selectors != '') {
-                                selectors += ',';
-                            }
-                            selectors += "li[data-type~=" + find[i][i2] + "]";
-                            usedCategories[ucCount] = find[i][i2];
-                            ucCount++;
-                        }
-                    }
+                if (find[i] == '' || find[i] == undefined) {
+                    find.splice(i, 1);
+                    i--;
                 }
+            }
+
+            if (find.length > 0) {
+                product = cartesianProduct(find);
+
+                for (i = 0; i < product.length; i++) {
+                    newSelectors[i] = 'li[data-type~=' + product[i].join('][data-type~=') + ']';
+                }
+
+                selectors = newSelectors.join(',');
             }
 
             // Show all items if no links are selected
