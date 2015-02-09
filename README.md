@@ -1,6 +1,8 @@
 jQuery Filter Grid
 ===========
 
+UPDATE: This project is no longer maintained. The author suggests checking out isotope (https://github.com/metafizzy/isotope).
+
 Filter a set of items by category using jQuery Quicksand for animation.
 
 This currently includes a modified version of jQuery Quicksand 1.2.2 due to a couple of issues when running the newest version.
